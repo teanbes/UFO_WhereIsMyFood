@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "TriggerComponent.h"
 #include "UFOPawn.generated.h"
 
 UCLASS()
@@ -61,6 +62,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UFO Movement", meta = (AllowPrivateAccess = "true"), meta = (ClampMin = 0))
 	float MaxTiltAngle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Effects, meta = (AllowPrivateAccess = "true"))
+	class UParticleSystem* AbductionRay;
+
 public:
 
 	// Input Binding functions
@@ -72,5 +76,5 @@ public:
 	void FlightUp(float Value);
 
 	void ResetTilt(float DeltaTime);
-
+	
 };

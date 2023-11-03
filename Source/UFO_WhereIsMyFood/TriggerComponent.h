@@ -37,8 +37,26 @@ private:
 	
 	int32 AmountOfTriggers;
 
+	TArray<AActor*> FoundActors;
+
+	void GetPigActors();
+
+	UFUNCTION(BlueprintCallable)
+	void CheckForGameOver();
+
+	bool bIsGameOver;
+
 public:
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetAmountOfTriggers() const { return AmountOfTriggers; }
+
+	UFUNCTION(BlueprintCallable)
+	int32 GetAmountOfPigActors() const { return FoundActors.Num(); }
+
+	UFUNCTION(BlueprintCallable)
+	bool IsGameOver() const { return bIsGameOver;  }
+
+
+
 };

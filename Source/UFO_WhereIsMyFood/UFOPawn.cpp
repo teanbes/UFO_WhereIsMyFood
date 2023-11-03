@@ -6,6 +6,8 @@
 #include "PhysicsEngine/PhysicsThrusterComponent.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "Particles/ParticleSystemComponent.h"
+
 
 // Sets default values
 AUFOPawn::AUFOPawn() :
@@ -31,7 +33,7 @@ MaxTiltAngle(70.0f)
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArm->AttachToComponent(Mesh, FAttachmentTransformRules::KeepWorldTransform);
 	SpringArm->SetRelativeRotation(FRotator(0, 0, -90));
-	SpringArm->TargetArmLength = 2000.0f;
+	SpringArm->TargetArmLength = 1500.0f;
 	SpringArm->bDoCollisionTest = false;
 	SpringArm->bInheritPitch = false;
 	SpringArm->bInheritRoll = false;
@@ -115,6 +117,7 @@ void AUFOPawn::ResetTilt(float DeltaTime)
 		CurrentRotation.Pitch = FMath::FInterpTo(CurrentRotation.Pitch, 0.0f, DeltaTime, 5.0f);
 		SetActorRotation(CurrentRotation);
 	}
+	
 }
 
 
