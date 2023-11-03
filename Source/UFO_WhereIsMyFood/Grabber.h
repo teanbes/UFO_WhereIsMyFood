@@ -47,5 +47,8 @@ private:
 	UPhysicsHandleComponent* GetPhysicsHandle() const;
 
 	bool GetGrabbableInreach(FHitResult& OutHitResult) const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Effects, meta = (AllowPrivateAccess = "true"))
+	class UParticleSystemComponent* GrabParticleComponent;
 		
 };

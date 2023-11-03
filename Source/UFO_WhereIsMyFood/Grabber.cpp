@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Particles/ParticleSystemComponent.h"
 
 // Sets default values for this component's properties
 UGrabber::UGrabber()
@@ -13,7 +14,9 @@ UGrabber::UGrabber()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	// Creating particle system component
+	GrabParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("GrabParticleComponent"));
+	
 }
 
 
@@ -64,6 +67,20 @@ void UGrabber::Grab()
 		// Grab HitComponent
 		PhysicsHandle->GrabComponentAtLocationWithRotation(HitComponent, NAME_None, HitResult.ImpactPoint, GetComponentRotation());
 	}
+
+	// Spawn and attach the particle system to the grabber
+	if (GrabParticleComponent && GrabParticleComponent->Template)
+	{
+		// Spawn the particle system at the grabber's location
+		GrabParticleComponent->SetRelativeLocation(FVector::ZeroVector); // Offset if needed
+		GrabParticleComponent->AttachToComponent(this, FAttachmentTransformRules::SnapToTargetIncludingScale);
+		GrabParticleComponent->Activate(true);
+		// Set scale and rotation of particles
+		FVector InitialScale = FVector(3.0f, 3.0f, 3.0f);
+		GrabParticleComponent->SetRelativeScale3D(InitialScale);
+		FRotator NewRotation = FRotator(0.0f, 90.0f, -90.0f);
+		GrabParticleComponent->SetRelativeRotation(NewRotation);
+	}
 	
 }
 
@@ -79,6 +96,19 @@ void UGrabber::Released()
 	{
 		PhysicsHandle->GetGrabbedComponent()->WakeAllRigidBodies();
 		PhysicsHandle->ReleaseComponent();
+	}
+
+	// Deactivate the particle system
+	//if (GrabParticleComponent)
+	//{
+	//	GrabParticleComponent->Deactivate();
+	//}
+
+	// Deactivate and detach the particle system
+	if (GrabParticleComponent)
+	{
+		GrabParticleComponent->Deactivate();
+		GrabParticleComponent->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
 	}
 }
 
