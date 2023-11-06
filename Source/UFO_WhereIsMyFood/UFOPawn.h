@@ -41,7 +41,13 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UPhysicsThrusterComponent* PhysicsThruster;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UFO Movement", meta = (AllowPrivateAccess = "true"), meta = (ClampMin = -60, ClampMax = 1500))
+	UPROPERTY(EditAnywhere)
+	UPhysicsThrusterComponent* PhysicsThrusterRight;
+
+	UPROPERTY(EditAnywhere)
+	UPhysicsThrusterComponent* PhysicsThrusterLeft;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UFO Movement", meta = (AllowPrivateAccess = "true"), meta = (ClampMin = -60, ClampMax = 3000))
 	float VariableUpForce;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UFO Movement", meta = (AllowPrivateAccess = "true"))
