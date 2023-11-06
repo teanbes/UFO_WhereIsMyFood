@@ -14,7 +14,7 @@ UGrabber::UGrabber()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// Creating particle system component
+	// Creating particle component
 	GrabParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("GrabParticleComponent"));
 	
 }
@@ -26,7 +26,6 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
 	UPhysicsHandleComponent* PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-
 }
 
 
@@ -60,7 +59,7 @@ void UGrabber::Grab()
 	bool bHasHIt = GetGrabbableInreach(HitResult);
 	if (bHasHIt)
 	{
-		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 100, 10, FColor::Red, false, 5);
+		//DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 100, 10, FColor::Red, false, 5);
 		UPrimitiveComponent* HitComponent = HitResult.GetComponent();
 		// WakeHitResult component rigidbody for physics interaction
 		HitComponent->WakeAllRigidBodies();
@@ -98,12 +97,6 @@ void UGrabber::Released()
 		PhysicsHandle->ReleaseComponent();
 	}
 
-	// Deactivate the particle system
-	//if (GrabParticleComponent)
-	//{
-	//	GrabParticleComponent->Deactivate();
-	//}
-
 	// Deactivate and detach the particle system
 	if (GrabParticleComponent)
 	{
@@ -128,12 +121,11 @@ bool UGrabber::GetGrabbableInreach(FHitResult& OutHitResult) const
 {
 	FVector	Start = GetComponentLocation();
 	FVector End = Start + GetForwardVector() * MaxGrabDistance;
-	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
-	DrawDebugSphere(GetWorld(), End, 100, 10, FColor::Blue, false, 5);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Red);
+	//DrawDebugSphere(GetWorld(), End, 100, 10, FColor::Blue, false, 5);
 
 	FCollisionShape Sphere = FCollisionShape::MakeSphere(GrabRadius);
-	return GetWorld()->SweepSingleByChannel(OutHitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel1, Sphere);
-	 
+	return GetWorld()->SweepSingleByChannel(OutHitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel1, Sphere); 
 }
 
 
